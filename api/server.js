@@ -1,5 +1,6 @@
 const express = require("express");
 const helmet = require("helmet");
+const cors = require("cors");
 
 const server = express();
 //routes go here
@@ -7,6 +8,7 @@ const Home = require("../routes/Home");
 //MIDDLEWARE
 server.use(express.json());
 server.use(helmet());
+server.use(cors());
 
 server.use("/home", Home);
 
