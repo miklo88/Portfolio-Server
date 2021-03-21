@@ -14,12 +14,17 @@ server.use(cors());
 server.use("/home", Home);
 server.use("/user", User);
 
-server.get("/", (req, res) => {
-  res.status(200).json({
-    url: "/",
-    message: "Welcome to the server.",
-    operation: "GET",
-  });
+server.get("/", async (req, res) => {
+  try {
+    res.status(200).json({
+      url: "/",
+      message: "Welcome to the server.",
+      operation: "GET",
+    });
+  } catch (err) {
+    res.status(503).json({ message: "/, server.js endpoint." });
+    next(err);
+  }
 });
 
 module.exports = server;

@@ -9,21 +9,30 @@ const tempObj = {
 };
 const tempList = [];
 
-router.get("/", (req, res, next) => {
-  res.status(200).json({
-    url: "/",
-    message: "Home endpoint",
-    operation: "GET",
-    tempObj,
-    tempList,
-  });
-  next();
+router.get("/", async (req, res, next) => {
+  try {
+    res.status(200).json({
+      url: "/",
+      message: "Home endpoint",
+      operation: "GET",
+      tempObj,
+      tempList,
+    });
+  } catch (err) {
+    res.status(503).json({ message: "/, home error point." });
+    next(err);
+  }
 });
 
-router.post("/", (req, res) => {
-  res.status(201).json({
-    message: "posted.",
-    operation: "POST",
-  });
+router.post("/", async (req, res, next) => {
+  try {
+    res.status(201).json({
+      message: "posted.",
+      operation: "POST",
+    });
+  } catch (err) {
+    res.status(503).json({ message: "home post." });
+    next(err);
+  }
 });
 module.exports = router;

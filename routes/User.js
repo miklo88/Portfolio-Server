@@ -29,22 +29,32 @@ router.post("/", async (req, res, next) => {
     const addUser = await db("User").where("id", id).first();
     return res.status(201).json(addUser);
   } catch (err) {
+    res.status(503).json({ message: "update error: users-endpoint" });
     next(err);
   }
 });
 // router.put
+router.put("/:id", async (req, res, next) => {
+  try {
+    const findInput = await req.body;
+    console.log("find input: ", findInput);
+    const user = await db("User").where("id", req.params.id).update(req.body);
+    await userModel.update(user);
+    return res.status(200).json({ message: "User updated." });
+  } catch (err) {
+    res.status(503).json({ message: "update error: users-endpoint." });
+    next(err);
+  }
+});
 router.delete("/:id", async (req, res, next) => {
   try {
-    const { id } = req.params.id;
-    const users = await userModel.findbyId(id);
-    // const users = await userModel.remove(id);
-    userModel.remove(users);
-    res.status(207).json(users);
-    // then I can apply the delete() method to remove me.
-    //return a response message of "deletion was successful".
+    const user = await db("User").where("id", req.params.id);
+    console.log("user id: ", user);
+    await userModel.remove(user);
+    return res.status(207).json({ message: "Goodbye." });
   } catch (err) {
+    res.status(503).json({ message: "delete error: users-endpoint." });
     next(err);
-    console.log("delete endpoint error.");
   }
 });
 

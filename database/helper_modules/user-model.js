@@ -11,7 +11,7 @@ async function find() {
       "Admin"
     );
   } catch (err) {
-    console.log("error");
+    console.log("user model error");
   }
 }
 
@@ -19,26 +19,34 @@ async function findbyId(id) {
   try {
     return await db("User").where({ id }).first();
   } catch (err) {
-    console.log("error");
+    console.log("user model error");
   }
 }
 async function add(user) {
   try {
     return await db("User").insert(user);
   } catch (err) {
-    console.log("add user error. server endpoint");
+    console.log("add user error. user-model");
   }
 }
-async function remove(id) {
+async function update() {
   try {
-    return await db("User").where({ id }).del();
+    return await db("User");
   } catch (err) {
-    console.log("delete error. Server");
+    console.log("update user error, user-model");
+  }
+}
+async function remove() {
+  try {
+    return await db("User").del().where({ id: "id" });
+  } catch (err) {
+    console.log("delete error. user-model");
   }
 }
 module.exports = {
   find,
   findbyId,
   add,
+  update,
   remove,
 };
